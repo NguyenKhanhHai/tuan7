@@ -1,55 +1,52 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuanLySach {
-    private ArrayList<Sach> danhSach;
+    private List<Sach> danhSachSach;
 
     public QuanLySach() {
-        danhSach = new ArrayList<>();
+        danhSachSach = new ArrayList<>();
     }
-
     public void themSach(Sach sach) {
-        danhSach.add(sach);
+        danhSachSach.add(sach);
+        System.out.println("Đã thêm sách có mã: " + sach.getMaSach());
     }
-
-    public boolean xoaSach(String maSach) {
-        for (Sach sach : danhSach) {
-            if (sach.getMaSach().equalsIgnoreCase(maSach)) {
-                danhSach.remove(sach);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean capNhatSach(String maSach, Sach sachMoi) {
-        for (int i = 0; i < danhSach.size(); i++) {
-            if (danhSach.get(i).getMaSach().equalsIgnoreCase(maSach)) {
-                danhSach.set(i, sachMoi);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Sach timSachTheoMa(String maSach) {
-        for (Sach sach : danhSach) {
+    public Sach timKiemSach(String maSach) {
+        for (Sach sach : danhSachSach) {
             if (sach.getMaSach().equalsIgnoreCase(maSach)) {
                 return sach;
             }
         }
         return null;
     }
-
-    public void hienThiDanhSach() {
-        if (danhSach.isEmpty()) {
-            System.out.println("Danh sách sách trống.");
+    public void xoaSach(String maSach) {
+        Sach sachCanXoa = timKiemSach(maSach);
+        if (sachCanXoa != null) {
+            danhSachSach.remove(sachCanXoa);
+            System.out.println("Đã xóa sách có mã: " + maSach);
         } else {
-            System.out.println("===== DANH SÁCH SÁCH =====");
-            for (Sach sach : danhSach) {
-                System.out.println("--------------------------");
-                System.out.println(sach);
-                System.out.println("Giá bán ước tính: " + sach.tinhGiaBan() + " VNĐ");
-            }
+            System.out.println("Không tìm thấy sách có mã: " + maSach + " để xóa.");
         }
+    }
+    public void capNhatSoLuong(String maSach, int soLuongMoi) {
+         Sach sachCanUpdate = timKiemSach(maSach);
+         if(sachCanUpdate != null) {
+             sachCanUpdate.setSoLuong(soLuongMoi);
+             System.out.println("Đã cập nhật số lượng cho sách có mã: " + maSach);
+         } else {
+             System.out.println("Không tìm thấy sách có mã: " + maSach + " để cập nhật.");
+         }
+    }
+    public void hienThiDanhSach() {
+        if (danhSachSach.isEmpty()) {
+            System.out.println("Danh sách sách trống.");
+            return;
+        }
+        System.out.println("======= DANH SÁCH TẤT CẢ SÁCH =======");
+        for (Sach sach : danhSachSach) {
+            System.out.println("--------------------");
+            System.out.println(sach.toString());
+        }
+        System.out.println("======================================");
     }
 }
