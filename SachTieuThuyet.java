@@ -1,35 +1,48 @@
 public class SachTieuThuyet extends Sach implements IKiemKe {
     private String theLoai;
-    private boolean laSachSeries;
-
-    public SachTieuThuyet(String maSach, String tieuDe, String tacGia, int namXuatBan, int soLuong, double giaCoBan, String theLoai, boolean laSachSeries) {
-        super(maSach, tieuDe, tacGia, namXuatBan, soLuong, giaCoBan);
+    private Boolean laSachSeries;
+    public SachTieuThuyet(String maSach, String tieuDe, String tacGia, int namXuatBan, int soLuong, String theLoai, Boolean laSachSeries, double giaCoBan)
+    {
+        super(maSach, tieuDe, tacGia, namXuatBan, soLuong,giaCoBan);
         this.theLoai = theLoai;
         this.laSachSeries = laSachSeries;
     }
-
-    @Override
-    public double tinhGiaBan() {
-        double phuThu = laSachSeries ? 15000 : 0;
-        return getGiaCoBan() + phuThu;
-    }
-
-    @Override
+public String getTheLoai(){
+    return theLoai;
+}
+public void setTheLoai(String theLoai)
+{
+    this.theLoai = theLoai;
+}
+public Boolean getLaSachSeries()
+{
+    return laSachSeries;
+}
+public void setLaSachSeries(Boolean laSachSeries)
+{
+    this.laSachSeries = laSachSeries;
+}
+@Override
     public String toString() {
-        return super.toString() + "\n" +
-               "Thể loại: " + theLoai + "\n" +
-               "Là sách series: " + (laSachSeries ? "Có" : "Không") + "\n" +
-               "Giá bán ước tính: " + tinhGiaBan() + " VNĐ";
-    }
-
-    // Implement IKiemKe
+        return super.toString() +
+               ", Là sách series: " + laSachSeries +
+               ", Giá bán: " + tinhGiaBan();
+}
+@Override
+public double tinhGiaBan(){
+    if(laSachSeries)
+        return getGiaCoBan() + 15000;
+    else
+        return getGiaCoBan();
+}
     @Override
     public boolean kiemTraTonKho(int soLuongToiThieu) {
-        return getSoLuong() >= soLuongToiThieu;
+        return this.soLuong >= soLuongToiThieu;
     }
 
     @Override
     public void capNhatViTri(String viTriMoi) {
-        System.out.println("Đã chuyển sách [" + getTieuDe() + "] đến khu vực: " + viTriMoi);
+        System.out.println("Đã chuyển sách \"" + this.tieuDe + "\" đến khu vực: " + viTriMoi + ".");
     }
+}
 }
