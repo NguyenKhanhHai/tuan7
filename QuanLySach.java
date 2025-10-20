@@ -1,55 +1,64 @@
 import java.util.ArrayList;
-
+import java.util.Scanner;
 public class QuanLySach {
-    private ArrayList<Sach> danhSach;
-
-    public QuanLySach() {
-        danhSach = new ArrayList<>();
-    }
-
+    private final ArrayList<Sach> danhSachSach = new ArrayList<>();
+    private final Scanner sc = new Scanner(System.in);
+    // Thêm sách mới
     public void themSach(Sach sach) {
-        danhSach.add(sach);
+        danhSachSach.add(sach);
+        System.out.println("Đã thêm sách thành công!");
     }
-
-    public boolean xoaSach(String maSach) {
-        for (Sach sach : danhSach) {
-            if (sach.getMaSach().equalsIgnoreCase(maSach)) {
-                danhSach.remove(sach);
-                return true;
-            }
+    // Xóa sách theo mã
+    public void xoaSach(String maSach) {
+        Sach sach = timKiemTheoMa(maSach);
+        if (sach != null) {
+            danhSachSach.remove(sach);
+            System.out.println("Đã xóa sách có mã: " + maSach);
+        } else {
+            System.out.println("Không tìm thấy sách có mã: " + maSach);
         }
-        return false;
     }
-
-    public boolean capNhatSach(String maSach, Sach sachMoi) {
-        for (int i = 0; i < danhSach.size(); i++) {
-            if (danhSach.get(i).getMaSach().equalsIgnoreCase(maSach)) {
-                danhSach.set(i, sachMoi);
-                return true;
-            }
+    // Cập nhật thông tin sách
+    public void capNhatSach(String maSach) {
+        Sach sach = timKiemTheoMa(maSach);
+        if (sach == null) {
+            System.out.println("Không tìm thấy sách cần cập nhật!");
+            return;
         }
-        return false;
+        System.out.println("Nhập tên mới: ");
+        sach.setTieuDe(sc.nextLine());
+        System.out.println("Nhập tên tác giả mới: ");
+        sach.setTacGia(sc.nextLine());
+        System.out.println("Nhập mã tên mới");
+        sach.setMaSach(sc.nextLine());
+        sc.nextLine();
+        System.out.println("Cập nhật thành công!");
     }
-
-    public Sach timSachTheoMa(String maSach) {
-        for (Sach sach : danhSach) {
-            if (sach.getMaSach().equalsIgnoreCase(maSach)) {
-                return sach;
+    // Tìm kiếm theo mã sách
+    public Sach timKiemTheoMa(String maSach) {
+        for (Sach s : danhSachSach) {
+            if (s.getMaSach().equalsIgnoreCase(maSach)) {
+                return s;
             }
         }
         return null;
     }
-
+    // Hiển thị toàn bộ danh sách
     public void hienThiDanhSach() {
-        if (danhSach.isEmpty()) {
-            System.out.println("Danh sách sách trống.");
+        if (danhSachSach.isEmpty()) {
+            System.out.println("Danh sách trống!");
         } else {
-            System.out.println("===== DANH SÁCH SÁCH =====");
-            for (Sach sach : danhSach) {
-                System.out.println("--------------------------");
-                System.out.println(sach);
-                System.out.println("Giá bán ước tính: " + sach.tinhGiaBan() + " VNĐ");
+            for (Sach s : danhSachSach) {
+                System.out.println(s.toString());
+                System.out.println("-----------------------------------");
             }
         }
     }
+    public void hienThiDanhSachSach() {
+    for (Sach s : danhSachSach) {
+        System.out.println(s.toString());
+        System.out.println("Giá bán ước tính: " + s.tinhGiaBan() + " VNĐ");
+        System.out.println("------------------------------------");
+    }
+}
 }
